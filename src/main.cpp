@@ -1,7 +1,13 @@
 #include <Arduino.h>
+#include "TMC2130Stepper.h"
+#include "protoPins.h"
 
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(EN1, OUTPUT);
+  pinMode(EN2, OUTPUT);
+
+  digitalWrite(EN1, HIGH); //Turning off the output stage by default for safety
+  digitalWrite(EN2, HIGH);
 }
 
 void loop() {
