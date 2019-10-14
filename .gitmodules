@@ -1,0 +1,3 @@
+[submodule "lib/TMC2130Stepper"]
+	path = lib/TMC2130Stepper
+	url = https://github.com/teemuatlut/TMC2130Stepper.git
