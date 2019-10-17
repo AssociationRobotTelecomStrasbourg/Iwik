@@ -13,20 +13,20 @@ void setup() {
 
 	digitalWrite(EN2, HIGH); //Disable output stage by default
 	digitalWrite(EN1, HIGH);
-	delay(100);
+	delay(10);
 	//Initialize SPI, set current to 600mA, and activate stealthchop for both drivers
 	//Both drivers need to be initialized even if only one is used
 	DRV2.begin();
 	DRV1.begin();
-	delay(100);
+	delay(10);
 
 	DRV2.SilentStepStick2130(600);
 	DRV1.SilentStepStick2130(600);
-	delay(100);
+	delay(10);
 
 	DRV1.stealthChop(1);
 	DRV2.stealthChop(1);
-	delay(100);
+	delay(10);
 
 	digitalWrite(EN2, LOW); //Turning on the output stage
 	digitalWrite(EN1, LOW);
