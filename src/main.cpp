@@ -10,9 +10,8 @@ bool dir = true;
 void setup() {
 
 	//The delays between SPI calls seem to be important for consistent behaviour
+	//Driver Enables are at 1 (3V3) by default, i.e disabled, you need to pull them low to enable the drivers.
 
-	digitalWrite(EN2, HIGH); //Disable output stage by default
-	digitalWrite(EN1, HIGH);
 	delay(10);
 	//Initialize SPI, set current to 600mA, and activate stealthchop for both drivers
 	//Both drivers need to be initialized even if only one is used
