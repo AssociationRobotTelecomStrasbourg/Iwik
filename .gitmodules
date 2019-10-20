@@ -4,3 +4,6 @@
 [submodule "lib/AccelStepper"]
 	path = lib/AccelStepper
 	url = https://github.com/AssociationRobotTelecomStrasbourg/AccelStepper
+[submodule "lib/TeensyStep"]
+	path = lib/TeensyStep
+	url = https://github.com/AssociationRobotTelecomStrasbourg/TeensyStep.git
