@@ -22,30 +22,7 @@
 #define IO1 17 //Free pins on the side header
 #define IO2 16
 
-// Distance are in mm
-const float wheel_perimeter = 236;
-const float center_distance = 195;
-
-struct position_t {
-	float x, y, theta;
-};
-
 // Return battery voltage
 float batteryVoltage();
-
-// Go to (x,y) in mm
-void goTo(float x, float y);
-
-// Rotate from delta_theta in rad
-void rotateFrom(float delta_theta);
-
-// Rotate to theta in rad
-void rotateTo(float theta);
-
-// Translate from distance in rad
-void translate(float distance);
-
-// Return the angle between [-pi, pi)
-float angleModulo(float angle);
 
 #endif
