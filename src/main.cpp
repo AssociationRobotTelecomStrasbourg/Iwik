@@ -78,7 +78,7 @@ void goTo(float x, float y) {
 	float delta_y = y - position.y;
 
 	float distance = sqrtf(delta_x*delta_x + delta_y*delta_y);
-	float delta_theta = atan2f(delta_y, delta_x) - position.theta;
+	float delta_theta = angleModulo(atan2f(delta_y, delta_x) - position.theta);
 
 	rotate(delta_theta);
 
@@ -92,7 +92,7 @@ void rotate(float delta_theta) {
 	stepper2.setTargetRel(step);
 	controller.move(stepper1, stepper2);
 
-	position.theta += delta_theta;
+	position.theta = position.theta + delta_theta;
 }
 
 void translate(float distance) {
@@ -104,4 +104,15 @@ void translate(float distance) {
 
 	position.x += distance * cos(position.theta);
 	position.y += distance * sin(position.theta);
+}
+
+float angleModulo(float angle) {
+	angle = fmodf(angle, 2 * M_PI);
+	if (angle > M_PI) {
+		return angle - 2 * M_PI;
+	}
+	if (angle < -M_PI) {
+		return angle + 2 * M_PI;
+	}
+	return angle;
 }
