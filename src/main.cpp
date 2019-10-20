@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include <TMC2130Stepper.h>
 #include <TeensyStep.h>
-#include "protoPins.h"
+#include "board.h"
 
 TMC2130Stepper stepper_config1 = TMC2130Stepper(EN1, DIR1, STEP1, CS1, SDI, SDO, SCK);
 TMC2130Stepper stepper_config2 = TMC2130Stepper(EN2, DIR2, STEP2, CS2, SDI, SDO, SCK);
@@ -11,8 +11,9 @@ Stepper stepper2(STEP2, DIR2);
 
 StepControl controller;
 
-uint32_t stepsPerSecond = 50000;
-uint32_t stepsPerSecondSquared = 50000;
+
+uint32_t step_speed = 65000; // Maximum speed without step loss
+uint32_t acceleration = 100000;
 int32_t distance = 100000;
 
 int8_t turn = 1;
@@ -39,20 +40,25 @@ void setup() {
 
 	// Configure max speed and acceleration
 	stepper1
-		.setMaxSpeed(stepsPerSecond)
-		.setAcceleration(stepsPerSecondSquared)
+		.setMaxSpeed(step_speed)
+		.setAcceleration(acceleration)
 		.setInverseRotation(true);
 
 	stepper2
-		.setMaxSpeed(stepsPerSecond)
-		.setAcceleration(stepsPerSecondSquared);
+		.setMaxSpeed(step_speed)
+		.setAcceleration(acceleration);
+
+	Serial.begin(9600);
 
 	// Turning on the driver
 	digitalWrite(EN1, LOW);
 	digitalWrite(EN2, LOW);
+	delay(3000);
 }
 
 void loop() {
+	Serial.println(batteryVoltage());
+
 	stepper1.setTargetRel(distance);
 	stepper2.setTargetRel(distance);
 	controller.move(stepper1, stepper2);

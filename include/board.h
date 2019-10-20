@@ -1,5 +1,7 @@
-#ifndef PROTOPINS_H
-#define PROTOPINS_H
+#ifndef BOARD_H
+#define BOARD_H
+
+#include <Arduino.h>
 
 #define SCK 13
 #define SDO 12
@@ -12,7 +14,7 @@
 #define DIR1 21
 #define STEP2 22
 #define STEP1 20
-#define BATT_LVL 15 //Read ADC to get battery level, voltage division is 0.1287 (measured)
+#define BATT_LVL A1 //Read ADC to get battery level, voltage division is 0.1287 (measured)
 
 //Side header is as follows (from top to bottom) : GND SCL SDA 17-A3 16-A2 3V3
 #define SCL 19 //Broken out I2C port on side header
@@ -20,5 +22,6 @@
 #define IO1 17 //Free pins on the side header
 #define IO2 16
 
+float batteryVoltage();
 
 #endif
