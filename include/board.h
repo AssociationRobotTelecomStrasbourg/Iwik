@@ -22,6 +22,20 @@
 #define IO1 17 //Free pins on the side header
 #define IO2 16
 
+// Distance are in mm
+const float wheel_perimeter = 236;
+const float center_distance = 195;
+
+struct position_t {
+	float x, y, theta;
+};
+
 float batteryVoltage();
+
+void goTo(float x, float y);
+
+void rotate(float theta);
+
+void translate(float distance);
 
 #endif

@@ -11,12 +11,13 @@ Stepper stepper2(STEP2, DIR2);
 
 StepControl controller;
 
-
 uint32_t step_speed = 65000; // Maximum speed without step loss
 uint32_t acceleration = 100000;
-int32_t distance = 100000;
+int32_t distance = 100;
 
 int8_t turn = 1;
+
+position_t position = {0., 0., 0.};
 
 void setup() {
 
@@ -59,11 +60,48 @@ void setup() {
 void loop() {
 	Serial.println(batteryVoltage());
 
-	stepper1.setTargetRel(distance);
-	stepper2.setTargetRel(distance);
+	goTo(100, -50);
+	delay(500);
+
+	goTo(100, 50);
+	delay(500);
+
+	goTo(-100, -50);
+	delay(500);
+
+	goTo(-100, 50);
+	delay(500);
+}
+
+void goTo(float x, float y) {
+	float delta_x = x - position.x;
+	float delta_y = y - position.y;
+
+	float distance = sqrtf(delta_x*delta_x + delta_y*delta_y);
+	float delta_theta = atan2f(delta_y, delta_x) - position.theta;
+
+	rotate(delta_theta);
+
+	translate(distance);
+}
+
+void rotate(float delta_theta) {
+	float step = delta_theta * 200 * 255 * center_distance / 2 / wheel_perimeter;
+
+	stepper1.setTargetRel(-step);
+	stepper2.setTargetRel(step);
 	controller.move(stepper1, stepper2);
 
-	stepper1.setTargetRel(-distance);
-	stepper2.setTargetRel(-distance);
+	position.theta += delta_theta;
+}
+
+void translate(float distance) {
+	float step = distance * 200 * 255 / wheel_perimeter;
+
+	stepper1.setTargetRel(step);
+	stepper2.setTargetRel(step);
 	controller.move(stepper1, stepper2);
+
+	position.x += distance * cos(position.theta);
+	position.y += distance * sin(position.theta);
 }
