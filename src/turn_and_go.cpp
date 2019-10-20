@@ -50,11 +50,9 @@ void TurnAndGo::goTo(float x, float y) {
 }
 
 void TurnAndGo::rotateFrom(float delta_theta) {
-	float step = delta_theta * 200 * 255 * center_distance / 2 / wheel_perimeter;
+	int32_t step = delta_theta * 200 * 255 * center_distance / 2 / wheel_perimeter;
 
-	_stepper1.setTargetRel(-step);
-	_stepper2.setTargetRel(step);
-	_controller.move(_stepper1, _stepper2);
+	stepFrom(-step, step);
 
 	_position.theta += delta_theta;
 }
@@ -64,14 +62,18 @@ void TurnAndGo::rotateTo(float theta) {
 }
 
 void TurnAndGo::translate(float distance) {
-	float step = distance * 200 * 255 / wheel_perimeter;
+	int32_t step = distance * 200 * 255 / wheel_perimeter;
 
-	_stepper1.setTargetRel(step);
-	_stepper2.setTargetRel(step);
-	_controller.move(_stepper1, _stepper2);
+	stepFrom(step, step);
 
 	_position.x += distance * cos(_position.theta);
 	_position.y += distance * sin(_position.theta);
+}
+
+void TurnAndGo::stepFrom(int32_t delta_step1, int32_t delta_step2) {
+	_stepper1.setTargetRel(delta_step1);
+	_stepper2.setTargetRel(delta_step2);
+	_controller.move(_stepper1, _stepper2);
 }
 
 const position_t& TurnAndGo::getPosition() const {

@@ -9,7 +9,7 @@
 const float wheel_perimeter = 236;
 const float center_distance = 195;
 
-const uint32_t maximum_speed = 65000; // Maximum speed without step loss in step/s
+const int32_t maximum_speed = 65000; // Maximum speed without step loss in step/s
 const uint32_t acceleration = 100000; // Acceleration in step/s^2
 
 struct position_t {
@@ -32,6 +32,9 @@ public:
 
 	// Translate from distance in rad
 	void translate(float distance);
+
+	// Move steppers from delta_steps
+	void stepFrom(int32_t delta_step1, int32_t delta_step2);
 
 	// Get position
 	const position_t& getPosition() const;
