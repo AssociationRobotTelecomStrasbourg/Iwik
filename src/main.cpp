@@ -85,14 +85,18 @@ void goTo(float x, float y) {
 	translate(distance);
 }
 
-void rotate(float delta_theta) {
+void rotateFrom(float delta_theta) {
 	float step = delta_theta * 200 * 255 * center_distance / 2 / wheel_perimeter;
 
 	stepper1.setTargetRel(-step);
 	stepper2.setTargetRel(step);
 	controller.move(stepper1, stepper2);
 
-	position.theta = position.theta + delta_theta;
+	position.theta += delta_theta;
+}
+
+void rotateTo(float theta) {
+	rotateFrom(theta-position.theta);
 }
 
 void translate(float distance) {

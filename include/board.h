@@ -33,13 +33,16 @@ struct position_t {
 // Return battery voltage
 float batteryVoltage();
 
-// Go to (x,y)
+// Go to (x,y) in mm
 void goTo(float x, float y);
 
-// Rotate from delta_theta
-void rotate(float delta_theta);
+// Rotate from delta_theta in rad
+void rotateFrom(float delta_theta);
 
-// Translate from distance
+// Rotate to theta in rad
+void rotateTo(float theta);
+
+// Translate from distance in rad
 void translate(float distance);
 
 // Return the angle between [-pi, pi)
