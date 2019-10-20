@@ -1,6 +1,6 @@
 [submodule "lib/TMC2130Stepper"]
 	path = lib/TMC2130Stepper
-	url = https://github.com/teemuatlut/TMC2130Stepper.git
+	url = https://github.com/AssociationRobotTelecomStrasbourg/TMC2130Stepper.git
 [submodule "lib/TeensyStep"]
 	path = lib/TeensyStep
 	url = https://github.com/AssociationRobotTelecomStrasbourg/TeensyStep.git
