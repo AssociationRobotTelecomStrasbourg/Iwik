@@ -34,7 +34,10 @@ public:
 	void translate(float distance);
 
 	// Get position
-	const position_t& getPosition();
+	const position_t& getPosition() const;
+
+	// Set position
+	void setPosition(const position_t& position);
 
 private:
 	TMC2130Stepper _stepper_config1;

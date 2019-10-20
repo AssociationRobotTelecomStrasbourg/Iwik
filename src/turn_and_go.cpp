@@ -74,8 +74,12 @@ void TurnAndGo::translate(float distance) {
 	_position.y += distance * sin(_position.theta);
 }
 
-const position_t& TurnAndGo::getPosition() {
+const position_t& TurnAndGo::getPosition() const {
 	return _position;
+}
+
+void TurnAndGo::setPosition(const position_t& position) {
+	_position = position;
 }
 
 float angleModulo(float angle) {
