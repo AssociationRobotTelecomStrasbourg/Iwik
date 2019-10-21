@@ -9,7 +9,9 @@
 const float wheel_perimeter = 236;
 const float center_distance = 195;
 
+const uint16_t current = 1100;
 const uint8_t microstep = 16;
+const bool interpolate = true;
 const uint32_t step_per_turn = 200*microstep;
 
 struct position_t {

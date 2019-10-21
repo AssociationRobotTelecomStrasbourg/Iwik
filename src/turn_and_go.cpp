@@ -13,12 +13,12 @@ _stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
 	_stepper_config2.begin();
 	delay(5);
 
-	_stepper_config1.SilentStepStick2130(1100);
-	_stepper_config2.SilentStepStick2130(1100);
+	_stepper_config1.SilentStepStick2130(current);
+	_stepper_config2.SilentStepStick2130(current);
 	delay(5);
 
-	_stepper_config1.interpolate(true);
-	_stepper_config2.interpolate(true);
+	_stepper_config1.interpolate(interpolate);
+	_stepper_config2.interpolate(interpolate);
 	delay(5);
 
 	_stepper_config1.microsteps(microstep);
