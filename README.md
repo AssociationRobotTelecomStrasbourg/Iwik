@@ -1,4 +1,4 @@
-# TMC2130_Proto
+# Iwik
 Sources for a prototype differential drive robot using two stepper motors driven by TMC2130 drivers by Trinamic
 
 ## Mouvement
@@ -12,5 +12,4 @@ Sources for a prototype differential drive robot using two stepper motors driven
   - [ ] Test it
 
 ## Communication
-- [ ] RS485
-  - [ ] Find ModBus library
+- [ ] ESP01
