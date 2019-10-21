@@ -16,3 +16,7 @@ Sources for a prototype differential drive robot using two stepper motors driven
 
 ## Communication
 - [ ] ESP01
+
+## Installation
+1. Clone the repository
+2. Initialize submodule, `git submodule update --init`
