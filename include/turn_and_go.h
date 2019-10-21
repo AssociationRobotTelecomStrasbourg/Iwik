@@ -12,9 +12,6 @@ const float center_distance = 195;
 const uint8_t microstep = 16;
 const uint32_t step_per_turn = 200*microstep;
 
-const float maximum_speed = 1000; // Maximum speed without step loss in mm/s
-const float acceleration = 1000; // Acceleration in mm/s^2
-
 struct position_t {
 	float x, y, theta;
 };
@@ -22,35 +19,61 @@ struct position_t {
 class TurnAndGo {
 public:
 	// Initialize TurnAndGo
-	TurnAndGo();
+	TurnAndGo(const float maximum_speed = 1000, const float acceleration = 1000);
 
 	// Go to (x,y) in mm
-	void goTo(float x, float y);
+	void goTo(const float x, const float y);
+
+	// Go to (x,y) in mm with temporary maximum speed
+	void goTo(const float x, const float y, const float maximum_speed);
+
+	// Go to (x,y) in mm with temporary maximum speed and acceleration
+	void goTo(const float x, const float y, const float maximum_speed,
+			  const float acceleration);
 
 	// Rotate from delta_theta in rad
-	void rotateFrom(float delta_theta);
+	void rotateFrom(const float delta_theta);
 
 	// Rotate to theta in rad
-	void rotateTo(float theta);
+	void rotateTo(const float theta);
 
 	// Translate from distance in rad
-	void translate(float distance);
+	void translate(const float distance);
 
 	// Move steppers from delta_steps
-	void stepFrom(int32_t delta_step1, int32_t delta_step2);
+	void stepFrom(const int32_t delta_step1, const int32_t delta_step2);
 
 	// Get position
 	const position_t& getPosition() const;
 
+	// Get maximum speed
+	const float getMaximumSpeed() const;
+
+	// Get acceleration
+	const float getAcceleration() const;
+
 	// Set position
 	void setPosition(const position_t& position);
 
+	// Set maximum speed
+	void setMaximumSpeed(const float maximum_speed);
+
+	// Set acceleration
+	void setAcceleration(const float acceleration);
+
+	// Apply maximum speed
+	void applyMaximumSpeed(const float maximum_speed);
+
+	// Apply acceleration
+	void applyAcceleration(const float acceleration);
+
 private:
-	TMC2130Stepper _stepper_config1;
-	TMC2130Stepper _stepper_config2;
+	TMC2130Stepper _stepper_config1, _stepper_config2;
 	Stepper _stepper1, _stepper2;
 	StepControl _controller;
 	position_t _position;
+
+	float _maximum_speed, _acceleration;
 };
 
 // Return the angle between [-pi, pi)
