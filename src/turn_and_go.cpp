@@ -23,13 +23,13 @@ _stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
 
 	// Configure max speed and acceleration
 	_stepper1
-		.setMaxSpeed(maximum_speed)
-		.setAcceleration(acceleration)
+		.setMaxSpeed(maximum_speed*step_per_turn)
+		.setAcceleration(acceleration*step_per_turn)
 		.setInverseRotation(true);
 
 	_stepper2
-		.setMaxSpeed(maximum_speed)
-		.setAcceleration(acceleration);
+		.setMaxSpeed(maximum_speed*step_per_turn)
+		.setAcceleration(acceleration*step_per_turn);
 
 	// Turning on the driver
 	digitalWrite(EN1, LOW);
@@ -50,7 +50,7 @@ void TurnAndGo::goTo(float x, float y) {
 }
 
 void TurnAndGo::rotateFrom(float delta_theta) {
-	int32_t step = delta_theta * 200 * 255 * center_distance / 2 / wheel_perimeter;
+	int32_t step = delta_theta * step_per_turn * center_distance / 2 / wheel_perimeter;
 
 	stepFrom(-step, step);
 
@@ -62,7 +62,7 @@ void TurnAndGo::rotateTo(float theta) {
 }
 
 void TurnAndGo::translate(float distance) {
-	int32_t step = distance * 200 * 255 / wheel_perimeter;
+	int32_t step = distance * step_per_turn / wheel_perimeter;
 
 	stepFrom(step, step);
 

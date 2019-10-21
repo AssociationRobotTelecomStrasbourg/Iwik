@@ -9,8 +9,10 @@
 const float wheel_perimeter = 236;
 const float center_distance = 195;
 
-const int32_t maximum_speed = 65000; // Maximum speed without step loss in step/s
-const uint32_t acceleration = 100000; // Acceleration in step/s^2
+const int32_t step_per_turn = 200*256;
+
+const int32_t maximum_speed = 1.25; // Maximum speed without step loss in turn/s
+const uint32_t acceleration = 2; // Acceleration in turn/s^2
 
 struct position_t {
 	float x, y, theta;
