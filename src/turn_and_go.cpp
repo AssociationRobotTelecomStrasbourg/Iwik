@@ -6,20 +6,20 @@ _stepper_config2(EN2, DIR2, STEP2, CS2, SDI, SDO, SCK),
 _stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
 	// The delays between SPI calls seem to be important for consistent behaviour
 	// Driver Enables are at 1 (3V3) by default, i.e disabled, you need to pull them low to enable the drivers.
-	delay(10);
+	delay(5);
 	// Initialize SPI, set current to 600mA, and activate stealthchop for both drivers
 	// Both drivers need to be initialized even if only one is used
 	_stepper_config1.begin();
 	_stepper_config2.begin();
-	delay(10);
+	delay(5);
 
-	_stepper_config1.SilentStepStick2130(600);
-	_stepper_config2.SilentStepStick2130(600);
-	delay(10);
+	_stepper_config1.SilentStepStick2130(900);
+	_stepper_config2.SilentStepStick2130(900);
+	delay(5);
 
 	_stepper_config1.stealthChop(1);
 	_stepper_config2.stealthChop(1);
-	delay(10);
+	delay(5);
 
 	// Configure max speed and acceleration
 	_stepper1
