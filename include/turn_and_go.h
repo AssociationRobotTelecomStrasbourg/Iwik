@@ -12,8 +12,8 @@ const float center_distance = 195;
 const uint8_t microstep = 16;
 const uint32_t step_per_turn = 200*microstep;
 
-const int32_t maximum_speed = 6; // Maximum speed without step loss in turn/s
-const uint32_t acceleration = 5; // Acceleration in turn/s^2
+const float maximum_speed = 1000; // Maximum speed without step loss in mm/s
+const float acceleration = 1000; // Acceleration in mm/s^2
 
 struct position_t {
 	float x, y, theta;

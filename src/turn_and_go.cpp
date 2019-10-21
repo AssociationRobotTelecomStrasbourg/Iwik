@@ -31,8 +31,8 @@ _stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
 
 	// Configure max speed and acceleration
 	_stepper1
-		.setMaxSpeed(maximum_speed*step_per_turn)
-		.setAcceleration(acceleration*step_per_turn)
+		.setMaxSpeed(maximum_speed/wheel_perimeter*step_per_turn)
+		.setAcceleration(acceleration/wheel_perimeter*step_per_turn)
 		.setInverseRotation(true);
 
 	_stepper2
