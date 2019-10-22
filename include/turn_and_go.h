@@ -5,10 +5,11 @@
 #include <TeensyStep.h>
 #include "board.h"
 
-// Distance are in mm
-const float wheel_perimeter = 236;
-const float center_distance = 195;
+// Odometry parameters
+const float wheel_perimeter = 233.4; // in mm
+const float center_distance = 193.13; // in mm
 
+// Stepper parameters
 const uint16_t current = 1100;
 const uint8_t microstep = 16;
 const bool interpolate = true;
@@ -40,7 +41,7 @@ public:
 	void rotateTo(const float theta);
 
 	// Translate from distance in rad
-	void translate(const float distance);
+	void translateFrom(const float distance);
 
 	// Move steppers from delta_steps
 	void stepFrom(const int32_t delta_step1, const int32_t delta_step2);

@@ -49,7 +49,7 @@ void TurnAndGo::goTo(const float x, const float y) {
 
 	rotateFrom(delta_theta);
 
-	translate(distance);
+	translateFrom(distance);
 }
 
 void TurnAndGo::goTo(const float x, const float y, const float maximum_speed) {
@@ -77,7 +77,7 @@ void TurnAndGo::rotateTo(const float theta) {
 	rotateFrom(theta-_position.theta);
 }
 
-void TurnAndGo::translate(const float distance) {
+void TurnAndGo::translateFrom(const float distance) {
 	int32_t step = distance * step_per_turn / wheel_perimeter;
 
 	stepFrom(step, step);
