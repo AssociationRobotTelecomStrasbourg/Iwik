@@ -12,13 +12,13 @@ Sources for a prototype differential drive robot using two stepper motors driven
 
 #### Odometry calibration
 1. Calibrate `step_ratio`
-   1. Translate from a distance
+   1. Use `step_ratio_calibration()` in `setup()`
    2. Note the deviation
    3. Update `step_ratio`
-	   - Left -> decrease
-	   - Right -> increase
+	   - Anti-clockwise -> decrease
+	   - Clockwise -> increase
 2. Calibrate `wheel_perimeter`
-   1. Translate from a distance
+   1. Use `wheel_perimeter_calibration()` in `loop()` followed by `delay(1000)`
    2. Note the deviation
    3. Update `wheel_perimeter`
 	   - Too short -> decrease
@@ -29,7 +29,7 @@ new_wheel_perimeter = old_wheel_perimeter *
 distance_moved / distance_wanted
 ```
 3. Calibrate `center_distance`
-   1. Rotate from
+   1. Use `center_distance_calibration()` in `setup()`
    2. Note the deviation
    3. Update `wheel_perimeter`
 	   - Too short -> decrease
