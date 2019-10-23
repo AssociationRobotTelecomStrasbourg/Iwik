@@ -6,7 +6,7 @@ TurnAndGo turn_and_go(500, 500);
 
 void setup() {
 	// Serial.begin(9600);
-	delay(5000);
+	delay(10000);
 	turn_and_go.translateFrom(1000);
 }
 

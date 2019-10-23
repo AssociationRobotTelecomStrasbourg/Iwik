@@ -6,9 +6,9 @@
 #include "board.h"
 
 // Odometry parameters
+const float step_ratio = 0.999; // Ratio of the two wheel perimeter wheel1/wheel2
 const float wheel_perimeter = 233.4; // in mm
 const float center_distance = 193.13; // in mm
-const float step_ratio = 0.99; // Ratio of the two wheel perimeter wheel1/wheel2
 
 // Stepper parameters
 const uint16_t current = 1100;
