@@ -8,7 +8,7 @@ Sources for a prototype differential drive robot using two stepper motors driven
 ### TurnAndGo
 - [ ] Add backward option
 - [ ] Add enable option
-- [ ] Add wheel_ratio odometry setting
+- [x] Add step_ratio odometry setting
 
 #### Odometry calibration
 1. Translate from a distance

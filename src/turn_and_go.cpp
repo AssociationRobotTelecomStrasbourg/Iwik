@@ -88,7 +88,7 @@ void TurnAndGo::translateFrom(const float distance) {
 
 void TurnAndGo::stepFrom(const int32_t delta_step1, const int32_t delta_step2) {
 	_stepper1.setTargetRel(delta_step1);
-	_stepper2.setTargetRel(delta_step2);
+	_stepper2.setTargetRel(delta_step2/step_ratio);
 	_controller.move(_stepper1, _stepper2);
 }
 
@@ -121,13 +121,13 @@ void TurnAndGo::setAcceleration(const float acceleration) {
 void TurnAndGo::applyMaximumSpeed(const float maximum_speed) {
 	int32_t step_maximum_speed = maximum_speed/wheel_perimeter*step_per_turn;
 	_stepper1.setMaxSpeed(step_maximum_speed);
-	_stepper2.setMaxSpeed(step_maximum_speed);
+	_stepper2.setMaxSpeed(step_maximum_speed/step_ratio);
 }
 
 void TurnAndGo::applyAcceleration(const float acceleration) {
 	uint32_t step_acceleration = acceleration/wheel_perimeter*step_per_turn;
 	_stepper1.setAcceleration(step_acceleration);
-	_stepper2.setAcceleration(step_acceleration);
+	_stepper2.setAcceleration(step_acceleration/step_ratio);
 }
 
 float angleModulo(float angle) {
