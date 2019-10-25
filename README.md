@@ -9,6 +9,7 @@ Sources for a prototype differential drive robot using two stepper motors driven
 - [ ] Add backward option
 - [ ] Add enable option
 - [x] Add step_ratio odometry setting
+- [ ] Add async function
 
 #### Odometry calibration
 1. Calibrate `step_ratio`
