@@ -1,6 +1,13 @@
 # Iwik
 Sources for a prototype differential drive robot using two stepper motors driven by TMC2130 drivers by Trinamic
 
+## Formation
+- [ ] Odometry calibration
+- [ ] Trace forms
+- [ ] Lidar distance
+- [ ] Follow hand
+- [ ] Avoid obstacles
+
 ## Movement
 ### TMC2130Stepper
 - [ ] Explore coniguration
