@@ -2,24 +2,27 @@
 #include "board.h"
 #include "turn_and_go.h"
 #include "lidar.h"
-#include "odometry.h"
+// #include "odometry.h"
 
 Lidar lidar;
-int32_t distance_read;
-int32_t distance_wanted = 100;
 
-TurnAndGo turn_and_go(500, 500);
+int32_t safety_distance = 200, dir = 1;
+
+TurnAndGo turn_and_go;
 
 void setup() {
     // Setup serial link
     Serial.begin(9600);
-
+    pinMode(LED_BUILTIN, OUTPUT);
     // Wait before starting loop
 	delay(5000);
 }
 
 void loop() {
-	distance_read = lidar.readDistance();
-
-	turn_and_go.translateFrom(distance_read-distance_wanted);
+    if (safety_distance > lidar.readDistance())
+        turn_and_go.stopAsync();
+    else if (!turn_and_go.isMoving()) {
+        turn_and_go.translateFromAsync(dir*300);
+        dir *= -1;
+    }
 }

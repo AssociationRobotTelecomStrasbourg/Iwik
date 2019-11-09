@@ -86,10 +86,30 @@ void TurnAndGo::translateFrom(const float distance) {
 	_position.y += distance * sin(_position.theta);
 }
 
+void TurnAndGo::translateFromAsync(const float distance) {
+	int32_t step = distance * step_per_turn / wheel_perimeter;
+
+	stepFromAsync(step, step);
+}
+
 void TurnAndGo::stepFrom(const int32_t delta_step1, const int32_t delta_step2) {
 	_stepper1.setTargetRel(delta_step1);
 	_stepper2.setTargetRel(delta_step2*step_ratio);
 	_controller.move(_stepper1, _stepper2);
+}
+
+void TurnAndGo::stepFromAsync(const int32_t delta_step1, const int32_t delta_step2) {
+	_stepper1.setTargetRel(delta_step1);
+	_stepper2.setTargetRel(delta_step2*step_ratio);
+	_controller.moveAsync(_stepper1, _stepper2);
+}
+
+void TurnAndGo::stopAsync() {
+	_controller.stopAsync();
+}
+
+bool TurnAndGo::isMoving() {
+	return _controller.isRunning();
 }
 
 const position_t& TurnAndGo::getPosition() const {

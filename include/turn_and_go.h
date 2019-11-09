@@ -20,6 +20,8 @@ struct position_t {
 	float x, y, theta;
 };
 
+
+
 class TurnAndGo {
 public:
 	// Initialize TurnAndGo
@@ -46,6 +48,20 @@ public:
 
 	// Move steppers from delta_steps
 	void stepFrom(const int32_t delta_step1, const int32_t delta_step2);
+
+
+	// Translate from distance in rad
+	void translateFromAsync(const float distance);
+
+	// Move steppers asynchronously from delta_steps
+	void stepFromAsync(const int32_t delta_step1, const int32_t delta_step2);
+
+	// Stop steppers asynchronously
+	void stopAsync();
+
+	// Return if steppers are moving
+	bool isMoving();
+
 
 	// Get position
 	const position_t& getPosition() const;
