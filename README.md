@@ -58,7 +58,7 @@ On commence par des approximation des paramètres en mesurant directement sur le
 
 Une fois ceci fait on utilise les méthodes de calibrations pour affiner les mesures encore et encore jusqu'à ce que l'erreur de positionnement soit négligeable.
 
-1 Calibre `step_ratio` le ratio de la taille des roues
+1. Calibre `step_ratio` le ratio de la taille des roues
     1. Utilise `step_ratio_calibration()` dans `setup()`
     2. Change `step_ratio` selon la déviation
         - Sens anti-horaire -> Diminue
