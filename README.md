@@ -41,10 +41,6 @@ Pour utiliser pi pour les angles, `M_PI`
 - Dessine un carré
 - Dessine une étoile
 
-- [ ] Utilisation Lidar
-- [ ] Follow hand
-- [ ] Avoid obstacles
-
 ### Odométrie
 #### Explication
 L'odométrie permet de situer le robot dans l'espace en se basant sur la rotation des moteurs, l'entraxe du robot, le périmètre et le ratio de la taille des roues.
@@ -57,6 +53,8 @@ Le réglage de l'odométrie est un processus itératif.
 On commence par des approximation des paramètres en mesurant directement sur le robot le périmètre des roues, l'entraxe du robot et l'on considère que les roues sont exactement de la même taille.
 
 Une fois ceci fait on utilise les méthodes de calibrations pour affiner les mesures encore et encore jusqu'à ce que l'erreur de positionnement soit négligeable.
+
+**Ajout de schéma pour illustrer chaque effet des paramètres de l'odométrie**
 
 1. Calibre `step_ratio` le ratio de la taille des roues
     1. Utilise `step_ratio_calibration()` dans `setup()`
@@ -82,6 +80,9 @@ Il suffit de modifier les valeurs dans `odometry.py` et l'exécuter.
 ```
 python3 odometry.py
 ```
+
+#### Challenge
+- Régler l'odométrie le mieux possible
 
 ### Lidar
 `lidar.readDistance()`
