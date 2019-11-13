@@ -12,7 +12,7 @@ Sources for a prototype differential drive robot using two stepper motors driven
     - [ ] Stopping
     - [ ] Stopped
 - [ ] ESP01
-  - [ ] Sent movement command
+  - [ ] Sent movement command [resource](https://github.com/jeelabs/esp-link)
 
 ## Formation
 ### Installation
