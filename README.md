@@ -12,6 +12,7 @@ Sources for a prototype differential drive robot using two stepper motors driven
     - [ ] Stopping
     - [ ] Stopped
 - [ ] ESP01
+  - [ ] Sent movement command
 
 ## Formation
 ### Installation
