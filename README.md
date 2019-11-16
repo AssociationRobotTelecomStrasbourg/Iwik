@@ -31,11 +31,33 @@ Pour utiliser pi pour les angles, `M_PI`
 `turn_and_go.goTo(x, y)`
 
 ```c++
-// Code pour faire un aller retour avec translateFrom() et rotateFrom()
+void loop() {
+    // (x, y, theta) donne la position et orientation du robot p
+    // (0, 0, 0)
+    turn_and_go.translateFrom(500); // Avance de 500 mm
+    // (500, 0, 0)
+    turn_and_go.rotateFrom(M_PI); // Tourne de M_PI
+    // (500, 0, 0)
+    turn_and_go.translateFrom(500); // Avance de 500 mm
+    // (0, 0, M_PI)
+    turn_and_go.rotateFrom(M_PI); // Tourne de M_PI
+    // (0, 0, 0)
+    delay(1000);
+}
 ```
 
+est équivalent à
+
 ```c++
-// Code pour faire un aller retour avec goTo()
+void loop() {
+    // (0, 0, 0)
+    turn_and_go.goTo(500, 0); // Oriente et avance vers (500, 0)
+    turn_and_go.goTo(0, 0); // Oriente vers M_PI puis avance de 500 mm
+    // (0, 0, 0)
+    turn_and_go.rotateTo(0);
+    // (0, 0, 0)
+    delay(1000);
+}
 ```
 
 #### Challenges
