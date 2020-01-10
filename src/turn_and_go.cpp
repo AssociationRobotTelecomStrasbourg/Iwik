@@ -25,10 +25,6 @@ _stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
 	_stepper_config2.microsteps(microstep);
 	delay(5);
 
-	// _stepper_config1.stealthChop(true);
-	// _stepper_config2.stealthChop(true);
-	// delay(5);
-
 	// Configure max speed and acceleration
 	setAcceleration(acceleration);
 	setMaximumSpeed(maximum_speed);
@@ -52,25 +48,10 @@ void TurnAndGo::goTo(const float x, const float y) {
 	translateFrom(distance);
 }
 
-void TurnAndGo::goTo(const float x, const float y, const float maximum_speed) {
-	applyMaximumSpeed(maximum_speed);
-	goTo(x, y);
-	applyMaximumSpeed(_maximum_speed);
-}
-
-void TurnAndGo::goTo(const float x, const float y, const float maximum_speed,
-const float acceleration) {
-	applyAcceleration(acceleration);
-	goTo(x, y, maximum_speed);
-	applyAcceleration(_acceleration);
-}
-
 void TurnAndGo::rotateFrom(const float delta_theta) {
 	int32_t step = delta_theta * step_per_turn * center_distance / 2 / wheel_perimeter;
 
 	stepFrom(-step, step);
-
-	_position.theta += delta_theta;
 }
 
 void TurnAndGo::rotateTo(const float theta) {
@@ -81,35 +62,33 @@ void TurnAndGo::translateFrom(const float distance) {
 	int32_t step = distance * step_per_turn / wheel_perimeter;
 
 	stepFrom(step, step);
-
-	_position.x += distance * cos(_position.theta);
-	_position.y += distance * sin(_position.theta);
-}
-
-void TurnAndGo::translateFromAsync(const float distance) {
-	int32_t step = distance * step_per_turn / wheel_perimeter;
-
-	stepFromAsync(step, step);
 }
 
 void TurnAndGo::stepFrom(const int32_t delta_step1, const int32_t delta_step2) {
 	_stepper1.setTargetRel(delta_step1);
 	_stepper2.setTargetRel(delta_step2*step_ratio);
-	_controller.move(_stepper1, _stepper2);
-}
-
-void TurnAndGo::stepFromAsync(const int32_t delta_step1, const int32_t delta_step2) {
-	_stepper1.setTargetRel(delta_step1);
-	_stepper2.setTargetRel(delta_step2*step_ratio);
 	_controller.moveAsync(_stepper1, _stepper2);
 }
 
-void TurnAndGo::stopAsync() {
+void TurnAndGo::stop() {
 	_controller.stopAsync();
 }
 
 bool TurnAndGo::isMoving() {
 	return _controller.isRunning();
+}
+
+void TurnAndGo::run() {
+	_d_step1 = -_step1;
+	_d_step2 = -_step2;
+	_step1 = _stepper1.getPosition();
+	_step2 = _stepper2.getPosition();
+	_d_step1 += _step1;
+	_d_step2 += _step2;
+
+	_position.x += (_d_step1+_d_step2)*cos(_position.theta)/step_per_turn*wheel_perimeter;
+	_position.y += (_d_step1+_d_step2)*sin(_position.theta)/step_per_turn*wheel_perimeter;
+	_position.theta += (-_d_step1+_d_step2)/step_per_turn/center_distance*2*wheel_perimeter;
 }
 
 const position_t& TurnAndGo::getPosition() const {
@@ -129,25 +108,17 @@ void TurnAndGo::setPosition(const position_t& position) {
 }
 
 void TurnAndGo::setMaximumSpeed(const float maximum_speed) {
-	_maximum_speed = maximum_speed;
-	applyMaximumSpeed(_maximum_speed);
-}
-
-void TurnAndGo::setAcceleration(const float acceleration) {
-	_acceleration = acceleration;
-	applyAcceleration(_acceleration);
-}
-
-void TurnAndGo::applyMaximumSpeed(const float maximum_speed) {
 	int32_t step_maximum_speed = maximum_speed/wheel_perimeter*step_per_turn;
 	_stepper1.setMaxSpeed(step_maximum_speed);
 	_stepper2.setMaxSpeed(step_maximum_speed*step_ratio);
+	_maximum_speed = maximum_speed;
 }
 
-void TurnAndGo::applyAcceleration(const float acceleration) {
+void TurnAndGo::setAcceleration(const float acceleration) {
 	uint32_t step_acceleration = acceleration/wheel_perimeter*step_per_turn;
 	_stepper1.setAcceleration(step_acceleration);
 	_stepper2.setAcceleration(step_acceleration*step_ratio);
+	_acceleration = acceleration;
 }
 
 float angleModulo(float angle) {

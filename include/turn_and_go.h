@@ -30,13 +30,6 @@ public:
 	// Go to (x,y) in mm
 	void goTo(const float x, const float y);
 
-	// Go to (x,y) in mm with temporary maximum speed
-	void goTo(const float x, const float y, const float maximum_speed);
-
-	// Go to (x,y) in mm with temporary maximum speed and acceleration
-	void goTo(const float x, const float y, const float maximum_speed,
-			  const float acceleration);
-
 	// Rotate from delta_theta in rad
 	void rotateFrom(const float delta_theta);
 
@@ -49,19 +42,14 @@ public:
 	// Move steppers from delta_steps
 	void stepFrom(const int32_t delta_step1, const int32_t delta_step2);
 
-
-	// Translate from distance in rad
-	void translateFromAsync(const float distance);
-
-	// Move steppers asynchronously from delta_steps
-	void stepFromAsync(const int32_t delta_step1, const int32_t delta_step2);
-
-	// Stop steppers asynchronously
-	void stopAsync();
+	// Stop steppers
+	void stop();
 
 	// Return if steppers are moving
 	bool isMoving();
 
+	// Run the control of the motor
+	void run();
 
 	// Get position
 	const position_t& getPosition() const;
@@ -81,17 +69,12 @@ public:
 	// Set acceleration
 	void setAcceleration(const float acceleration);
 
-	// Apply maximum speed
-	void applyMaximumSpeed(const float maximum_speed);
-
-	// Apply acceleration
-	void applyAcceleration(const float acceleration);
-
 private:
 	TMC2130Stepper _stepper_config1, _stepper_config2;
 	Stepper _stepper1, _stepper2;
 	StepControl _controller;
 	position_t _position;
+	int32_t _step1, _d_step1, _step2, _d_step2;
 
 	float _maximum_speed, _acceleration;
 };
