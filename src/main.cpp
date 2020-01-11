@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-    if (!turn_and_go.isMoving()) {
+    if (!turn_and_go.run()) {
         writeData(turn_and_go.getPosition(), sizeof(position_t));
         distance = -distance;
         turn_and_go.translateFrom(distance);

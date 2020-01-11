@@ -74,21 +74,25 @@ void TurnAndGo::stop() {
 	_controller.stopAsync();
 }
 
-bool TurnAndGo::isMoving() {
+bool TurnAndGo::run() {
+	static uint32_t time, last_time = millis()-sample_time;
+
+	time = millis();
+	if (time - last_time > sample_time) {
+		last_time = time;
+
+		_d_step1 = -_step1;
+		_d_step2 = -_step2;
+		_step1 = _stepper1.getPosition();
+		_step2 = _stepper2.getPosition()/step_ratio;
+		_d_step1 += _step1;
+		_d_step2 += _step2;
+
+		_position.x += (_d_step1+_d_step2)/2*cos(_position.theta)/(float)step_per_turn*wheel_perimeter;
+		_position.y += (_d_step1+_d_step2)/2*sin(_position.theta)/(float)step_per_turn*wheel_perimeter;
+		_position.theta += (-_d_step1+_d_step2)/(float)step_per_turn/center_distance*wheel_perimeter;
+	}
 	return _controller.isRunning();
-}
-
-void TurnAndGo::run() {
-	_d_step1 = -_step1;
-	_d_step2 = -_step2;
-	_step1 = _stepper1.getPosition();
-	_step2 = _stepper2.getPosition();
-	_d_step1 += _step1;
-	_d_step2 += _step2;
-
-	_position.x += (_d_step1+_d_step2)*cos(_position.theta)/step_per_turn*wheel_perimeter;
-	_position.y += (_d_step1+_d_step2)*sin(_position.theta)/step_per_turn*wheel_perimeter;
-	_position.theta += (-_d_step1+_d_step2)/step_per_turn/center_distance*2*wheel_perimeter;
 }
 
 const position_t* TurnAndGo::getPosition() const {
@@ -103,8 +107,8 @@ const float TurnAndGo::getAcceleration() const {
 	return _acceleration;
 }
 
-void TurnAndGo::setPosition(const position_t& position) {
-	_position = position;
+void TurnAndGo::setPosition(const position_t* position) {
+	_position = *position;
 }
 
 void TurnAndGo::setMaximumSpeed(const float maximum_speed) {
