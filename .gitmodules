@@ -7,3 +7,6 @@
 [submodule "lib/vl53l0x"]
 	path = lib/vl53l0x
 	url = https://github.com/AssociationRobotTelecomStrasbourg/vl53l0x-arduino.git
+[submodule "lib/binserial"]
+	path = lib/binserial
+	url = git@github.com:AssociationRobotTelecomStrasbourg/BinSerial.git
