@@ -9,4 +9,4 @@
 	url = https://github.com/AssociationRobotTelecomStrasbourg/vl53l0x-arduino.git
 [submodule "lib/binserial"]
 	path = lib/binserial
-	url = git@github.com:AssociationRobotTelecomStrasbourg/BinSerial.git
+	url = https://github.com/AssociationRobotTelecomStrasbourg/BinSerial.git
