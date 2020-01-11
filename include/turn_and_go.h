@@ -52,7 +52,7 @@ public:
 	void run();
 
 	// Get position
-	const position_t& getPosition() const;
+	const position_t* getPosition() const;
 
 	// Get maximum speed
 	const float getMaximumSpeed() const;

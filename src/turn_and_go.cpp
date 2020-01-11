@@ -91,8 +91,8 @@ void TurnAndGo::run() {
 	_position.theta += (-_d_step1+_d_step2)/step_per_turn/center_distance*2*wheel_perimeter;
 }
 
-const position_t& TurnAndGo::getPosition() const {
-	return _position;
+const position_t* TurnAndGo::getPosition() const {
+	return &_position;
 }
 
 const float TurnAndGo::getMaximumSpeed() const {
