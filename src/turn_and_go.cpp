@@ -43,6 +43,11 @@ void TurnAndGo::goTo(const float x, const float y) {
 
 	_angle = angleModulo(atan2f(delta_y, delta_x) - _position.theta);
 	_distance = sqrtf(delta_x*delta_x + delta_y*delta_y);
+
+	if (backward && fabsf(_angle) > M_PI_2) {
+		_angle = angleModulo(_angle+M_PI);
+		_distance = -_distance;
+	}
 }
 
 void TurnAndGo::rotateTo(const float theta) {

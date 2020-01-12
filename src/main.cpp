@@ -5,7 +5,7 @@
 // #include "lidar.h"
 // #include "odometry.h"
 
-float distance = M_PI;
+float distance = 100;
 
 TurnAndGo turn_and_go;
 
@@ -20,7 +20,7 @@ void loop() {
     if (turn_and_go.run() == STOP) {
         delay(1000);
         writeData(turn_and_go.getPosition(), sizeof(position_t));
-        turn_and_go.rotateFrom(distance);
+        turn_and_go.goTo(distance, 0);
         distance = -distance;
     }
 }

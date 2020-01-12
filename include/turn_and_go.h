@@ -5,6 +5,9 @@
 #include <TeensyStep.h>
 #include "board.h"
 
+// Movements parameters
+const bool backward = true; // Allow the robot to go backward
+
 // Odometry parameters
 const float step_ratio = 0.999; // Ratio of the two wheel perimeter wheel1/wheel2
 const float wheel_perimeter = 235; // in mm
