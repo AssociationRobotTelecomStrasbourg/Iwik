@@ -9,7 +9,6 @@
 const float step_ratio = 0.999; // Ratio of the two wheel perimeter wheel1/wheel2
 const float wheel_perimeter = 235; // in mm
 const float center_distance = 193.13; // in mm
-const uint32_t sample_time = 10;
 
 // Stepper parameters
 const uint16_t current = 1100;

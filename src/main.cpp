@@ -5,7 +5,7 @@
 // #include "lidar.h"
 // #include "odometry.h"
 
-int32_t distance = 100;
+float distance = M_PI;
 
 TurnAndGo turn_and_go;
 
@@ -14,13 +14,13 @@ void setup() {
     Serial.begin(9600);
     while(!Serial);
     pinMode(LED_BUILTIN, OUTPUT);
-    turn_and_go.goTo(distance, 0);
 }
 
 void loop() {
     if (turn_and_go.run() == STOP) {
+        delay(1000);
         writeData(turn_and_go.getPosition(), sizeof(position_t));
+        turn_and_go.rotateFrom(distance);
         distance = -distance;
-        turn_and_go.goTo(distance, 0);
     }
 }
