@@ -3,7 +3,8 @@
 TurnAndGo::TurnAndGo(const float maximum_speed, const float acceleration) :
 _stepper_config1(EN1, DIR1, STEP1, CS1, SDI, SDO, SCK),
 _stepper_config2(EN2, DIR2, STEP2, CS2, SDI, SDO, SCK),
-_stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}) {
+_stepper1(STEP1, DIR1), _stepper2(STEP2, DIR2), _position({0., 0., 0.}),
+_state(STOP) {
 	// The delays between SPI calls seem to be important for consistent behaviour
 	// Driver Enables are at 1 (3V3) by default, i.e disabled, you need to pull them low to enable the drivers.
 	delay(5);
@@ -40,28 +41,27 @@ void TurnAndGo::goTo(const float x, const float y) {
 	float delta_x = x - _position.x;
 	float delta_y = y - _position.y;
 
-	float distance = sqrtf(delta_x*delta_x + delta_y*delta_y);
-	float delta_theta = angleModulo(atan2f(delta_y, delta_x) - _position.theta);
+	_angle = angleModulo(atan2f(delta_y, delta_x) - _position.theta);
+	_distance = sqrtf(delta_x*delta_x + delta_y*delta_y);
+}
 
-	rotateFrom(delta_theta);
-
-	translateFrom(distance);
+void TurnAndGo::rotateTo(const float theta) {
+	_angle = theta-_position.theta;
+	_distance = 0;
 }
 
 void TurnAndGo::rotateFrom(const float delta_theta) {
 	int32_t step = delta_theta * step_per_turn * center_distance / 2 / wheel_perimeter;
 
 	stepFrom(-step, step);
-}
-
-void TurnAndGo::rotateTo(const float theta) {
-	rotateFrom(theta-_position.theta);
+	_state = ROTATE;
 }
 
 void TurnAndGo::translateFrom(const float distance) {
 	int32_t step = distance * step_per_turn / wheel_perimeter;
 
 	stepFrom(step, step);
+	_state = TRANSLATE;
 }
 
 void TurnAndGo::stepFrom(const int32_t delta_step1, const int32_t delta_step2) {
@@ -72,11 +72,46 @@ void TurnAndGo::stepFrom(const int32_t delta_step1, const int32_t delta_step2) {
 
 void TurnAndGo::stop() {
 	_controller.stopAsync();
+	_state = BRAKE;
 }
 
-bool TurnAndGo::run() {
+state_t TurnAndGo::run() {
 	static uint32_t time, last_time = millis()-sample_time;
 
+	switch(_state) {
+		case STOP:
+			if (_angle != 0) {
+				rotateFrom(_angle);
+			}
+			else if (_distance != 0) {
+				translateFrom(_distance);
+			}
+			break;
+		case ROTATE:
+			if (!_controller.isRunning()) {
+				_angle = 0;
+				translateFrom(_distance);
+				_state = TRANSLATE;
+			}
+			break;
+		case TRANSLATE:
+			if (!_controller.isRunning()) {
+				_distance = 0;
+				_state = STOP;
+			}
+			break;
+		case BRAKE:
+			if (!_controller.isRunning()) {
+				_angle = 0;
+				_distance = 0;
+				_state = STOP;
+			}
+			break;
+		default:
+			break;
+	}
+
+	// Odometry
 	time = millis();
 	if (time - last_time > sample_time) {
 		last_time = time;
@@ -92,7 +127,8 @@ bool TurnAndGo::run() {
 		_position.y += (_d_step1+_d_step2)/2*sin(_position.theta)/(float)step_per_turn*wheel_perimeter;
 		_position.theta += (-_d_step1+_d_step2)/(float)step_per_turn/center_distance*wheel_perimeter;
 	}
-	return _controller.isRunning();
+	
+	return _state;
 }
 
 const position_t* TurnAndGo::getPosition() const {

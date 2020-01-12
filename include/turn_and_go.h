@@ -21,7 +21,7 @@ struct position_t {
 	float x, y, theta;
 };
 
-
+enum state_t {STOP, ROTATE, TRANSLATE, BRAKE};
 
 class TurnAndGo {
 public:
@@ -31,11 +31,11 @@ public:
 	// Go to (x,y) in mm
 	void goTo(const float x, const float y);
 
-	// Rotate from delta_theta in rad
-	void rotateFrom(const float delta_theta);
-
 	// Rotate to theta in rad
 	void rotateTo(const float theta);
+
+	// Rotate from delta_theta in rad
+	void rotateFrom(const float delta_theta);
 
 	// Translate from distance in rad
 	void translateFrom(const float distance);
@@ -50,7 +50,7 @@ public:
 	bool isMoving();
 
 	// Run the control of the motor
-	bool run();
+	state_t run();
 
 	// Get position
 	const position_t* getPosition() const;
@@ -75,7 +75,10 @@ private:
 	Stepper _stepper1, _stepper2;
 	StepControl _controller;
 	position_t _position;
+	state_t _state;
 	int32_t _step1, _d_step1, _step2, _d_step2;
+
+	float _angle, _distance;
 
 	float _maximum_speed, _acceleration;
 };
