@@ -4,9 +4,9 @@ Sources for a prototype differential drive robot using two stepper motors driven
 
 ## Software
 
-- [x] Add backward configuration
 - [ ] ESP01
   - [ ] Sent movement command [resource](https://github.com/jeelabs/esp-link)
+- [x] Add backward configuration
 - [x] Verify the workings of the odometry
 - [x] Asynchronous movement
 
